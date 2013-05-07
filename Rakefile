@@ -5,13 +5,15 @@ require 'yaml'
 require 'erb'
 
 namespace :db do
+  def run_sql_cmd(cmd)
+    sql_cmd = %Q|mysql -u#{config['username']} -p#{config['password']} -e "#{cmd}"|
+    system sql_cmd
+  end
+
   desc "loads database configuration in for other tasks to run"
   task :load_config do
     ActiveRecord::Base.configurations = db_conf
-    
-    # drop and create need to be performed with a connection to the 'postgres' (system) database
-    ActiveRecord::Base.establish_connection db_conf["production"].merge('database' => 'postgres',
-                                                                       'schema_search_path' => 'public')
+
   end
   
   desc "creates and migrates your database"

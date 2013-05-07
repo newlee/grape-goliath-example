@@ -1,9 +1,10 @@
 production: &production
-  adapter: em_postgresql
-  encoding: unicode
+  adapter: em_mysql2
+  encoding: utf8
   database: goliathgrape
   pool: 5
   username: root
-  password: 
+  password: root
+  host: localhost
 development:
   <<: *production
